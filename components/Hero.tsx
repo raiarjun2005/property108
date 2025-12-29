@@ -4,7 +4,7 @@ export default function Hero() {
       {/* Background with overlay */}
       <div className="absolute inset-0 z-0">
         <img 
-          src="/hero.png" 
+          src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=2071&auto=format&fit=crop" 
           alt="Luxury Interior" 
           className="w-full h-full object-cover opacity-90"
         />
@@ -12,7 +12,7 @@ export default function Hero() {
       </div>
 
       <div className="relative z-10 text-center px-6 max-w-4xl fade-in-up">
-        <p className="text-stone-200 text-xs md:text-sm tracking-[0.3em] uppercase mb-4">
+        <p className="text-stone-200 text-xs md:text-sm tracking-[0.3em] uppercase mb-4 mt-10">
           Rentals • Resale • Government Housing Assistance
         </p>
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif text-white mb-8 leading-tight">
