@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { properties } from '@/data/properties'; // Aapka data import
+import { getPropertyById } from '@/lib/firebaseService';
+import { Property } from '@/types/property';
 import Link from 'next/link';
 import { 
   MapPin, Bed, Bath, Square, Phone, Calendar, 
@@ -13,10 +14,33 @@ export default function PropertyDetails() {
   const params = useParams();
   const router = useRouter();
   const [showPhone, setShowPhone] = useState(false);
+  const [property, setProperty] = useState<Property | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  // 1. URL ID se property dhundho
-  // Note: params.id string hota hai, isliye toString() se match kiya
-  const property = properties.find((p) => p.id.toString() === params.id);
+  useEffect(() => {
+    const fetchProperty = async () => {
+      if (params.id && typeof params.id === 'string') {
+        try {
+          const data = await getPropertyById(params.id);
+          setProperty(data);
+        } catch (error) {
+          console.error('Error fetching property:', error);
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchProperty();
+  }, [params.id]);
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center h-screen bg-stone-50">
+        <div className="text-stone-500">Loading property details...</div>
+      </div>
+    );
+  }
 
   // Agar ID galat hai ya property nahi mili
   if (!property) {
