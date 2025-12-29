@@ -4,7 +4,7 @@ export default function Hero() {
       {/* Background with overlay */}
       <div className="absolute inset-0 z-0">
         <img 
-          src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=2071&auto=format&fit=crop" 
+          src="/hero.png" 
           alt="Luxury Interior" 
           className="w-full h-full object-cover opacity-90"
         />
