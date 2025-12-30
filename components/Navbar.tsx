@@ -17,9 +17,9 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ${
+    <nav className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-500 ease-out ${
       scrolled 
-        ? 'bg-white/95 backdrop-blur-md border-b border-stone-200/50 shadow-sm' 
+        ? 'bg-white/98 backdrop-blur-md border-b border-stone-200/50 shadow-lg' 
         : 'bg-white/80 backdrop-blur-sm border-b border-stone-200/30'
     }`}>
       
@@ -57,7 +57,7 @@ export default function Navbar() {
 
         
           <div className="hidden lg:block">
-            <button className="bg-stone-900 text-white px-5 xl:px-6 py-2 xl:py-2.5 rounded-sm text-[10px] xl:text-[11px] font-semibold tracking-[1.5px] hover:bg-stone-800 transition-all duration-300 uppercase shadow-sm hover:shadow-md">
+            <button className="bg-stone-900 text-white px-5 xl:px-6 py-2 xl:py-2.5 rounded-sm text-[10px] xl:text-[11px] font-semibold tracking-[1.5px] hover:bg-stone-800 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 uppercase shadow-sm">
               Inquire Now
             </button>
           </div>

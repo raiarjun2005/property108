@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { getAllProperties, subscribeToProperties } from '@/lib/firebaseService';
 import { Property } from '@/types/property';
@@ -9,6 +9,29 @@ export default function Listings() {
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    // Scroll animation observer
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animated');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const elements = sectionRef.current?.querySelectorAll('.animate-on-scroll');
+    elements?.forEach((el, index) => {
+      observer.observe(el);
+      (el as HTMLElement).style.transitionDelay = `${(index % 5) * 0.05}s`;
+    });
+
+    return () => observer.disconnect();
+  }, [properties]);
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
@@ -113,11 +136,12 @@ export default function Listings() {
   }
 
   return (
-    <section id="listings" className="py-12 md:py-16 bg-stone-50">
+    <section ref={sectionRef} id="listings" className="py-12 md:py-20 bg-gradient-to-b from-white via-stone-50 to-white">
       <div className="max-w-7xl mx-auto px-4 md:px-6">
-        <div className="mb-8 md:mb-12">
-          <h2 className="text-2xl md:text-3xl font-serif text-stone-900 mb-2">Curated Portfolio</h2>
-          <div className="w-16 h-0.5 bg-stone-300"></div>
+        <div className="mb-10 md:mb-14 animate-on-scroll slide-up">
+          <span className="text-xs font-bold tracking-[0.2em] text-stone-400 uppercase">Properties</span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif text-stone-900 mb-3 mt-2">Curated Portfolio</h2>
+          <div className="w-20 h-1 bg-gradient-to-r from-stone-300 to-transparent"></div>
         </div>
 
         {properties.length === 0 ? (
@@ -130,7 +154,7 @@ export default function Listings() {
               <Link 
                 href={`/property/${prop.id}`} 
                 key={prop.id} 
-                className="group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-all duration-200 border border-stone-200 hover:border-stone-400 hover:-translate-y-0.5"
+                className="group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-stone-200 hover:border-stone-400 hover:-translate-y-1 animate-on-scroll scale-in"
               >
                 {/* Image Container */}
                 <div className="relative h-40 md:h-44 lg:h-40 xl:h-36 overflow-hidden bg-stone-100">
