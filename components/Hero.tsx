@@ -17,21 +17,37 @@ export default function Hero() {
       { threshold: 0.1 }
     );
 
-    const elements = heroRef.current?.querySelectorAll('.animate-on-scroll');
+    // Note: We use 'current' here to assure TypeScript that the element exists at this point
+    const currentHeroRef = heroRef.current;
+    const elements = currentHeroRef?.querySelectorAll('.animate-on-scroll');
     elements?.forEach((el) => observer.observe(el));
 
-    return () => observer.disconnect();
+    return () => {
+        // Good practice to disconnect from the specific elements or the whole observer
+        observer.disconnect();
+    }
   }, []);
 
   return (
     <section ref={heroRef} className="relative h-screen flex items-center justify-center bg-stone-50 overflow-hidden">
       {/* Background with overlay */}
       <div className="absolute inset-0 z-0">
+        {/* --- MOBILE IMAGE --- */}
+        {/* Shows by default, hides on 'md' (tablet/desktop) screens and up */}
         <img 
-          src="/hero.png" 
-          alt="Luxury Interior" 
-          className="w-full h-full object-cover opacity-90 animate-on-scroll"
+          src="/movi.png" 
+          alt="Luxury Interior Mobile" 
+          className="w-full h-full object-cover opacity-90 animate-on-scroll block md:hidden"
         />
+
+        {/* --- DESKTOP/TABLET IMAGE --- */}
+        {/* Hides by default, shows on 'md' screens and up */}
+        <img 
+          src="/unnamed.jpg" 
+          alt="Luxury Interior Desktop" 
+          className="w-full h-full object-cover opacity-90 animate-on-scroll hidden md:block"
+        />
+        
         <div className="absolute inset-0 bg-gradient-to-b from-stone-900/50 via-stone-900/40 to-stone-900/60" />
       </div>
 
