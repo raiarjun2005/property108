@@ -45,10 +45,8 @@ export default function Contact() {
               <p className="text-sm tracking-wider text-stone-500 uppercase mb-2">Direct Line</p>
               <a href="tel:+918826154299" className="text-2xl font-semibold hover:text-stone-200 transition-colors inline-block">
                 +91 8826154299
-                +91 8447852284
               </a>
-            </div>
-            
+            </div>            
             <div className="group">
               <p className="text-sm tracking-wider text-stone-500 uppercase mt-8 mb-2">Email</p>
               <a href="mailto:info@property108.in" className="text-xl text-stone-300 hover:text-white transition-colors">
