@@ -42,7 +42,6 @@ export default function PropertyDetails() {
     );
   }
 
-  // Agar ID galat hai ya property nahi mili
   if (!property) {
     return (
       <div className="flex flex-col items-center justify-center h-screen bg-stone-50">
@@ -51,18 +50,6 @@ export default function PropertyDetails() {
       </div>
     );
   }
-
-  // --- DUMMY EXTENDED DATA (Kyuki shayad properties.ts me ye sab nahi hoga) ---
-  // Asal app me ye database se ayega
-  const extraDetails = {
-    description: "This is a premium property located in the heart of the city. Recently renovated with high-quality materials. It features a spacious living area, modular kitchen, and balconies with a great view. Perfect for families looking for a peaceful yet connected lifestyle.",
-    amenities: ["24x7 Security", "Power Backup", "Car Parking", "Gymnasium", "Swimming Pool", "Club House", "Jogging Track", "Children's Play Area"],
-    ownerName: "Rajesh Kumar",
-    ownerType: "Owner",
-    deposit: "₹ 2.5 Lacs",
-    furnishing: "Semi-Furnished",
-    postedOn: "2 days ago"
-  };
 
   return (
     <div className="bg-stone-50 min-h-screen pb-24 md:pb-10">
@@ -92,9 +79,8 @@ export default function PropertyDetails() {
                   {property.type}
                 </div>
             </div>
-            {/* Map/Side Info (Desktop par side me dikhega) */}
+            {/* Map/Side Info */}
             <div className="hidden md:flex flex-col gap-4">
-                 {/* Placeholder for more images or map */}
                  <div className="h-full bg-stone-200 rounded-xl flex items-center justify-center text-stone-400">
                     <span>More Images coming soon...</span>
                  </div>
@@ -123,7 +109,7 @@ export default function PropertyDetails() {
                         </div>
                         <div className="flex items-center gap-2">
                              <div className="bg-stone-100 p-2 rounded-full"><Square size={18} /></div>
-                             <span className="font-semibold text-stone-700">{extraDetails.furnishing}</span>
+                             <span className="font-semibold text-stone-700">{property.furnishing || "Not Specified"}</span>
                         </div>
                     </div>
                 </div>
@@ -132,15 +118,16 @@ export default function PropertyDetails() {
                 <div className="bg-white p-6 rounded-xl shadow-sm border border-stone-100">
                     <h3 className="text-lg font-bold text-stone-900 mb-3">Description</h3>
                     <p className="text-stone-600 leading-relaxed text-sm md:text-base">
-                        {extraDetails.description}
+                        {property.description || "No description available."}
                     </p>
                 </div>
 
                 {/* Amenities */}
+                {property.amenities && property.amenities.length > 0 && (
                 <div className="bg-white p-6 rounded-xl shadow-sm border border-stone-100">
                     <h3 className="text-lg font-bold text-stone-900 mb-4">Amenities</h3>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-y-3 gap-x-4">
-                        {extraDetails.amenities.map((item, i) => (
+                        {property.amenities.map((item, i) => (
                             <div key={i} className="flex items-center text-stone-600 text-sm">
                                 <CheckCircle size={16} className="text-green-600 mr-2 flex-shrink-0" />
                                 {item}
@@ -148,10 +135,11 @@ export default function PropertyDetails() {
                         ))}
                     </div>
                 </div>
+                )}
 
             </div>
 
-            {/* RIGHT COLUMN (Sticky Contact Card - 99acres Style) */}
+            {/* RIGHT COLUMN (Sticky Contact Card) */}
             <div className="lg:col-span-1">
                 <div className="sticky top-24 space-y-4">
                     
@@ -160,19 +148,23 @@ export default function PropertyDetails() {
                         <div className="mb-6">
                             <span className="text-stone-400 text-xs uppercase font-bold">Price</span>
                             <div className="text-3xl font-bold text-stone-900">{property.price}</div>
-                            <span className="text-xs text-green-600 font-semibold">Deposit: {extraDetails.deposit}</span>
+                            {property.deposit && (
+                              <span className="text-xs text-green-600 font-semibold">Deposit: {property.deposit}</span>
+                            )}
                         </div>
 
                         {/* Owner Info */}
+                        {property.ownerName && (
                         <div className="flex items-center gap-3 mb-6 p-3 bg-stone-50 rounded-lg border border-stone-100">
                             <div className="w-10 h-10 bg-stone-800 rounded-full flex items-center justify-center text-white font-bold">
-                                {extraDetails.ownerName[0]}
+                                {property.ownerName[0]}
                             </div>
                             <div>
-                                <div className="font-bold text-stone-900 text-sm">{extraDetails.ownerName}</div>
-                                <div className="text-xs text-stone-500">{extraDetails.ownerType} • Posted {extraDetails.postedOn}</div>
+                                <div className="font-bold text-stone-900 text-sm">{property.ownerName}</div>
+                                <div className="text-xs text-stone-500">{property.ownerType} • Posted {property.postedOn}</div>
                             </div>
                         </div>
+                        )}
 
                         {/* Buttons */}
                         <button 
@@ -180,7 +172,7 @@ export default function PropertyDetails() {
                             className="w-full bg-stone-900 text-white py-3 rounded-lg font-bold hover:bg-stone-800 transition flex items-center justify-center gap-2 mb-3 shadow-md"
                         >
                             <Phone size={18} />
-                            {showPhone ? "+91 98765 43210" : "View Phone Number"}
+                            {showPhone ? property.phone || "+91 98765 43210" : "View Phone Number"}
                         </button>
                         
                         <button className="w-full border border-stone-300 text-stone-700 py-3 rounded-lg font-bold hover:bg-stone-50 transition flex items-center justify-center gap-2">
@@ -205,7 +197,7 @@ export default function PropertyDetails() {
         </div>
       </div>
 
-      {/* --- MOBILE FIXED BOTTOM BAR (App Style) --- */}
+      {/* --- MOBILE FIXED BOTTOM BAR --- */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-stone-200 p-3 md:hidden flex gap-3 items-center z-50 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
         <div className="flex-1 pl-2">
             <div className="text-lg font-bold text-stone-900">{property.price}</div>

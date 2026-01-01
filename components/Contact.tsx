@@ -53,7 +53,6 @@ export default function Contact() {
                 info@property108.in
               </a>
             </div>
-
             <a 
               href="https://wa.me/919643560200" 
               target="_blank" 
