@@ -2,8 +2,7 @@ import { ref, get, set, push, remove, onValue, off, DataSnapshot } from 'firebas
 import { database } from './firebase';
 import { Property } from '@/types/property';
 
-const PROPERTIES_PATH = 'properties';
-
+const PROPERTIES_PATH = 'properties/properties';
 // Get all properties
 export const getAllProperties = async (): Promise<Property[]> => {
   try {
