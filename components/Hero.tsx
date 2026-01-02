@@ -88,12 +88,12 @@ export default function Hero() {
       <div className="absolute inset-0 z-0">
         <img 
           src="/movi.png" 
-          className="block md:hidden w-full h-full object-cover opacity-60" 
+          className="block md:hidden w-full h-full object-cover opacity-60 blur-xs" 
           alt="Background Mobile" 
         />
         <img 
           src="/unnamed.jpg" 
-          className="hidden md:block w-full h-full object-cover opacity-60" 
+          className="hidden md:block w-full h-full object-cover opacity-60 blur-xs" 
           alt="Background Desktop" 
         />
         <div className="absolute inset-0 bg-gradient-to-t from-stone-900/80 via-transparent to-transparent"></div>
