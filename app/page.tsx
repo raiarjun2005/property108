@@ -16,12 +16,6 @@ export default function Home() {
       {/* 2. Hero Section */}
       <Hero />
 
-      {/* 3. About Section */}
-      <About />
-
-      {/* 4. Why Choose Us Section */}
-      <WhyUs />
-
       {/* 5. Recent Listings */}
       <div id="listings">
         <div className="text-center mt-16 mb-4">
@@ -34,6 +28,14 @@ export default function Home() {
           <Listings />
         </Suspense>
       </div>
+
+
+      {/* 3. About Section */}
+      <About />
+
+      {/* 4. Why Choose Us Section */}
+      <WhyUs />
+
 
       {/* 6. Footer */}
       <footer className="bg-stone-900 text-white py-8 text-center mt-12">
