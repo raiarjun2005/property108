@@ -18,7 +18,7 @@ export default function Home() {
 
       {/* 5. Recent Listings */}
       <div id="listings">
-        <div className="text-center mt-16 mb-4">
+        <div className="text-center mt-10 mb-4">
           <h2 className="text-3xl font-serif font-bold text-stone-900">Featured Listings</h2>
           <p className="text-stone-500">Explore our latest properties</p>
         </div>

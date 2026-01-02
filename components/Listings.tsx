@@ -79,23 +79,19 @@ export default function Listings() {
     };
   }, []);
 
-  // -- UPDATED FILTERING LOGIC --
-  // -- UPDATED FILTERING LOGIC --
- // -- UPDATED FILTERING LOGIC --
+  // -- FILTERING LOGIC --
   useEffect(() => {
     if (properties.length === 0) return;
 
-    // Get search params
-    const tab = searchParams.get('tab');      // e.g. "Buy" or "Rent"
-    const state = searchParams.get('state');  // e.g. "Delhi"
-    const city = searchParams.get('city');    // e.g. "New Delhi"
-    const type = searchParams.get('type');    // e.g. "Flat" (Mapped to 'category' in DB)
+    const tab = searchParams.get('tab');
+    const state = searchParams.get('state');
+    const city = searchParams.get('city');
+    const type = searchParams.get('type');
 
     const filtered = properties.filter(prop => {
       let matches = true;
 
-      // 1. Tab Filter (Rent vs Buy)
-      // Checks if property.type matches the Tab (e.g. "Rent" == "Rent")
+      // 1. Tab Filter
       if (tab && tab !== 'Buy' && tab !== 'Rent') {
          matches = matches && (prop.type === tab);
       }
@@ -114,8 +110,7 @@ export default function Listings() {
         matches = matches && (propCity === city || propLoc.includes(city));
       }
 
-      // 4. Property Category Filter (Flat, House, Villa)
-      // This compares the search 'type' (e.g. Flat) with DB 'category' (e.g. Flat)
+      // 4. Property Category Filter
       if (type && type !== 'Any') {
          matches = matches && (prop.category === type);
       }
@@ -149,67 +144,69 @@ export default function Listings() {
       id="listings"
       className="py-8 md:py-12 bg-gradient-to-b from-white via-stone-50 to-white min-h-screen"
     >
-      <div className="max-w-7xl mx-auto px-4 md:px-6">
+      <div className="max-w-7xl mx-auto px-2 md:px-6"> {/* Reduced px for mobile */}
         
         {/* Results Count */}
-        <div className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <h2 className="text-2xl font-bold text-gray-800">
+        <div className="mb-4 md:mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4 px-2">
+            <h2 className="text-lg md:text-2xl font-bold text-gray-800">
                 {filteredProperties.length} Properties Found
             </h2>
             
-            {/* Optional: Show active filters for clarity */}
             {(searchParams.get('city') || searchParams.get('state')) && (
-              <div className="text-sm text-stone-500 bg-stone-100 px-3 py-1 rounded-full self-start">
+              <div className="text-xs md:text-sm text-stone-500 bg-stone-100 px-3 py-1 rounded-full self-start">
                 Filtering by: {searchParams.get('city') ? `${searchParams.get('city')}, ` : ''}{searchParams.get('state')}
               </div>
             )}
         </div>
 
-        {/* GRID */}
+        {/* GRID: CHANGED TO grid-cols-2 FOR MOBILE */}
         {filteredProperties.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-6">
             {currentItems.map((prop) => (
               <Link
                 href={`/property/${prop.id}`}
                 key={prop.id}
                 className="group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all border border-stone-200 hover:-translate-y-1 flex flex-col"
               >
-                {/* Image */}
-                <div className="relative h-48 bg-stone-100 overflow-hidden">
+                {/* Image - Reduced Height for Mobile */}
+                <div className="relative h-32 md:h-48 bg-stone-100 overflow-hidden">
                   <img
                     src={prop.image}
                     alt={prop.title}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform"
                   />
-                  <div className="absolute top-2 left-2 bg-white px-2 py-0.5 text-[10px] font-bold uppercase rounded-sm shadow-sm">
+                  <div className="absolute top-2 left-2 bg-white px-1.5 py-0.5 md:px-2 text-[8px] md:text-[10px] font-bold uppercase rounded-sm shadow-sm">
                     {prop.type}
                   </div>
                 </div>
 
-                {/* Content */}
-                <div className="p-4 space-y-2 flex-1 flex flex-col">
-                  <div className="text-xl font-bold text-[#6633cc]">
+                {/* Content - Compact Padding for Mobile */}
+                <div className="p-2 md:p-4 space-y-1 md:space-y-2 flex-1 flex flex-col">
+                  {/* Price - Smaller Font on Mobile */}
+                  <div className="text-sm md:text-xl font-bold text-[#6633cc]">
                     {prop.price}
                   </div>
 
-                  <h3 className="text-sm font-semibold line-clamp-2 text-gray-800">
+                  {/* Title - Truncate Logic */}
+                  <h3 className="text-xs md:text-sm font-semibold line-clamp-2 text-gray-800 leading-tight">
                     {prop.title}
                   </h3>
 
-                  <p className="text-xs text-stone-500 line-clamp-1 flex items-center gap-1">
+                  {/* Location */}
+                  <p className="text-[10px] md:text-xs text-stone-500 line-clamp-1 flex items-center gap-1">
                     📍 {prop.location}
                   </p>
 
-                  <div className="mt-auto pt-2 border-t border-stone-100 space-y-1">
-                    <p className="text-xs text-stone-600">
+                  <div className="mt-auto pt-2 border-t border-stone-100 space-y-0.5 md:space-y-1">
+                    <p className="text-[10px] md:text-xs text-stone-600 truncate">
                       <span className="font-semibold">Specs:</span> {prop.specs}
                     </p>
-                    <p className="text-xs text-stone-600">
-                      <span className="font-semibold">Furnishing:</span> {prop.furnishing}
+                    <p className="text-[10px] md:text-xs text-stone-600 truncate">
+                      <span className="font-semibold">Furnish:</span> {prop.furnishing}
                     </p>
                   </div>
 
-                  <span className="block mt-2 text-xs font-bold text-[#6633cc] group-hover:underline">
+                  <span className="block mt-1 md:mt-2 text-[10px] md:text-xs font-bold text-[#6633cc] group-hover:underline">
                     View Details →
                   </span>
                 </div>
@@ -218,33 +215,32 @@ export default function Listings() {
           </div>
         ) : (
           <div className="text-center py-20 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
-             <p className="text-gray-500 font-medium text-lg">No properties found matching your criteria.</p>
-             <p className="text-gray-400 text-sm mt-2">Try removing some filters or checking different locations.</p>
+             <p className="text-gray-500 font-medium text-lg">No properties found.</p>
              <button 
                onClick={() => window.location.href = '/search'} 
                className="mt-4 text-[#6633cc] font-bold hover:underline"
              >
-               Clear All Filters
+               Clear Filters
              </button>
           </div>
         )}
 
         {/* PAGINATION UI */}
         {totalPages > 1 && (
-            <div className="flex justify-center items-center mt-12 gap-2">
+            <div className="flex justify-center items-center mt-8 md:mt-12 gap-1 md:gap-2">
                 <button
                     onClick={() => paginate(currentPage - 1)}
                     disabled={currentPage === 1}
-                    className="p-2 rounded-md border border-gray-300 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="p-1.5 md:p-2 rounded-md border border-gray-300 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                    <ChevronLeft size={20} />
+                    <ChevronLeft size={16} />
                 </button>
                 
                 {Array.from({ length: totalPages }, (_, i) => (
                     <button
                         key={i + 1}
                         onClick={() => paginate(i + 1)}
-                        className={`w-10 h-10 rounded-md font-semibold transition-colors ${
+                        className={`w-8 h-8 md:w-10 md:h-10 text-xs md:text-base rounded-md font-semibold transition-colors ${
                             currentPage === i + 1
                                 ? 'bg-[#6633cc] text-white'
                                 : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
@@ -257,9 +253,9 @@ export default function Listings() {
                 <button
                     onClick={() => paginate(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    className="p-2 rounded-md border border-gray-300 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="p-1.5 md:p-2 rounded-md border border-gray-300 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                    <ChevronRight size={20} />
+                    <ChevronRight size={16} />
                 </button>
             </div>
         )}
