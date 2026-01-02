@@ -1,22 +1,44 @@
-// IMPORTANT: No curly braces for default exports
+'use client';
+
+import { Suspense } from 'react'; // 1. Import Suspense
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
-import Listings from '@/components/Listings';
-import WhyUs from '@/components/WhyUs';
 import About from '@/components/About';
-import Contact from '@/components/Contact';
-import Footer from '@/components/Footer';
+import WhyUs from '@/components/WhyUs';
+import Listings from '@/components/Listings';
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-white">
+      {/* 1. Navigation Bar */}
       <Navbar />
+
+      {/* 2. Hero Section */}
       <Hero />
-      <Listings />
-      <WhyUs />
+
+      {/* 3. About Section */}
       <About />
-      <Contact />
-      <Footer />
+
+      {/* 4. Why Choose Us Section */}
+      <WhyUs />
+
+      {/* 5. Recent Listings */}
+      <div id="listings">
+        <div className="text-center mt-16 mb-4">
+          <h2 className="text-3xl font-serif font-bold text-stone-900">Featured Listings</h2>
+          <p className="text-stone-500">Explore our latest properties</p>
+        </div>
+
+        {/* 🔥 FIX: Wrap Listings in Suspense to fix the build error */}
+        <Suspense fallback={<div className="text-center py-10">Loading listings...</div>}>
+          <Listings />
+        </Suspense>
+      </div>
+
+      {/* 6. Footer */}
+      <footer className="bg-stone-900 text-white py-8 text-center mt-12">
+        <p>&copy; {new Date().getFullYear()} Property108. All rights reserved.</p>
+      </footer>
     </main>
   );
 }
