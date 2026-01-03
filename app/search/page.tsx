@@ -1,19 +1,24 @@
-import Hero from '@/components/Hero'; // Adjust path if needed
-import Listings from '@/components/Listings'; // Adjust path if needed
+'use client';
+
 import { Suspense } from 'react';
+import Navbar from '@/components/Navbar';
+import SearchFilters from '@/components/SearchFilters'; // Import New Component
+import Listings from '@/components/Listings';
 
 export default function SearchPage() {
   return (
     <main className="min-h-screen bg-stone-50">
-      {/* The Hero component acts as the Filter bar on top. 
-         Since we are reusing it, it will look identical to the homepage.
-      */}
-      <Hero />
       
-      {/* Wrap Listings in Suspense because it uses useSearchParams 
-         which is required for client-side rendering in Next.js 
-      */}
-      <Suspense fallback={<div className="text-center py-20">Loading search...</div>}>
+      {/* 1. Navbar (Fixed at top) */}
+      <Navbar />
+
+      {/* 2. Rectangular Filter Box (Replaces Hero) */}
+      <Suspense fallback={<div className="h-40 bg-white"></div>}>
+        <SearchFilters />
+      </Suspense>
+      
+      {/* 3. Listings Section */}
+      <Suspense fallback={<div className="text-center py-20">Loading results...</div>}>
         <Listings />
       </Suspense>
     </main>
